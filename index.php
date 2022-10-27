@@ -16,13 +16,6 @@ function curl_get_content($url)
     return $result;
 }
 
-function pre($data)
-{
-    echo '<pre>';
-    print_r($data);
-    echo '</pre>';
-}
-
 function is_IE()
 {
     if(!isset($_SERVER['HTTP_USER_AGENT'])){
@@ -114,9 +107,7 @@ $sql = 'SELECT * FROM `pdf_uploads` WHERE `hash` = "' . $hash . '" LIMIT 1';
 $query = $mysqli->query($sql);
 $fetch = current($query->fetch_all(MYSQLI_ASSOC));
 
-$sql = 'UPDATE 
-            `pdf_uploads` 
-        SET 
+$sql = 'UPDATE `pdf_uploads` SET 
             `lastAction` = CURRENT_TIMESTAMP,
             `views` = `views` + 1 
         WHERE `id` = ' . $fetch['id'];
@@ -128,7 +119,7 @@ if (strtotime($fetch['visited']) < 0) {
                 `visited` = CURRENT_TIMESTAMP,
                 `client_id` = "' . trim($_GET['client_id']) . '", 
                 `client_code` = "' . trim($_GET['client_code']) . '" 
-                WHERE `id` = ' . $fetch['id'];
+            WHERE `id` = ' . $fetch['id'];
     $query = $mysqli->query($sql);
 }
 

@@ -8,6 +8,13 @@ return [
             'user' => '123',
             'password' => '123',
             'db' => '123'
+        ],
+        'cases' => [
+            'host' => 'localhost',
+            'port' => '3306',
+            'user' => '123',
+            'password' => '123',
+            'db' => '123'
         ]
     ],
 ];

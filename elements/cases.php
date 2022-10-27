@@ -1,6 +1,13 @@
 <?php
 
-$mysql_fl = new mysqli("mysql68.1gb.ru:3306", "gb_fluid_line", "fz4ba77bzui", "gb_fluid_line");
+$config = require_once __DIR__ . '/../config.php';
+
+$mysql_fl = new mysqli(
+    $config['databases']['cases']['host'] . ':' . $config['databases']['cases']['port'], 
+    $config['databases']['cases']['user'], 
+    $config['databases']['cases']['password'], 
+    $config['databases']['cases']['db']
+);
 $mysql_fl->query("set character_set_client='utf8'");
 $mysql_fl->query("set character_set_results='utf8'");
 $mysql_fl->query("set collation_connection='utf8'");

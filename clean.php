@@ -1,16 +1,5 @@
 <?php
 
-file_put_contents(__DIR__ . '/test.log', 'cron works', FILE_APPEND);
-echo 123;
-die;
-
-function pre($data)
-{
-    echo '<pre>';
-    print_r($data);
-    echo '</pre>';
-}
-
 $config = require_once __DIR__ . '/config.php';
 $db_config = $config['databases']['main'];
 
@@ -44,7 +33,6 @@ foreach ($fetch as $row) {
         if(file_exists($path . $file)){
             unlink($path . $file);
             $mysqli->query('UPDATE `pdf_uploads` SET `unzip` = 0 WHERE `id` = ' . $row['id']);
-            pre('Файл ' . $path . $file . ' удалён');
         }
 
     }

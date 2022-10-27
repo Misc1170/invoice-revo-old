@@ -171,9 +171,6 @@ $emails_to_send_letters = array(
     'managers' => 'mail@fluid-line.ru'
 );
 
-$mailganer_api_key = '4e255e71d5efaf49ccd65f8d55b709a9';
-
-
 function get_some_array_fields($array, $fields)
 {
     $fields = is_array($fields) ? $fields : array($fields);
@@ -202,40 +199,6 @@ function fetch_init($className)
 function json($data)
 {
     echo json_encode($data);
-}
-
-if (!function_exists('pre')) {
-    function pre($data)
-    {
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
-    }
-}
-
-
-function parse_excel($filename, $assoc = false)
-{
-    require_once __DIR__ . '/PHPExcel-1.8/Classes/PHPExcel.php';
-    $file_type = PHPExcel_IOFactory::identify($filename);
-    $objReader = PHPExcel_IOFactory::createReader($file_type);
-    $objPHPExcel = $objReader->load($filename); // загружаем данные файла в объект
-    $sheet = $objPHPExcel->getActiveSheet();
-
-    $array = $sheet->toArray();
-
-    if (!$assoc)
-        return $array;
-
-    $headers = array_shift($array);
-    $result = array();
-
-    foreach ($array as $row) {
-        foreach ($row as $i => $value)
-            $row_temp[$headers[$i]] = $value;
-        $result[] = $row_temp;
-    }
-    return $result;
 }
 
 function fetch_to_array($fetch, $field = false)
@@ -417,65 +380,6 @@ if (!function_exists('curl')) {
     }
 }
 
-
-function curl_query($url, $query = array(), $headers = array())
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
-    $response = curl_exec($ch);
-    curl_close($ch);
-    return $response;
-}
-
-/*function curl_get($url, $headers = array())
-{
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    $response = curl_exec($ch);
-    curl_close($ch);
-    return $response;
-}*/
-
-/*function curl_api($url, $data = array())
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
-    $response = curl_exec($ch);
-    curl_close($ch);
-    return $response;
-}*/
-
-
-function file_force_download($file_path, $filename = false, $ctype = false)
-{
-    header('Content-Description: File Transfer');
-    header('Content-Type: ' . ($ctype ? $ctype : 'application/octet-stream'));
-    header('Content-Disposition: attachment; filename="' . ($filename ? $filename : basename($file_path)) . '"');
-    header('Content-Transfer-Encoding: binary');
-    header('Content-Length: ' . filesize($file_path));
-
-    readfile($file_path);
-}
-
-
-function array_trimmer($data)
-{
-    foreach ($data as $i => $item)
-        $data[$i] = trim(preg_replace('/\s{2,}/', ' ', strval(strip_tags($item))));
-
-    return $data;
-}
-
-
 function textWrapper($text, $char_limit = 100)
 {
     return
@@ -486,26 +390,6 @@ function textWrapper($text, $char_limit = 100)
             : $text;
 }
 
-
-function csv_generate($data, $headers, $filename)
-{
-    header("Content-type: text/csv");
-    header("Content-Disposition: attachment; filename=$filename.csv");
-    header("Pragma: no-cache");
-    header("Expires: 0");
-
-    $buffer = fopen('php://output', 'w');
-    fputs($buffer, chr(0xEF) . chr(0xBB) . chr(0xBF));
-    if (!empty($headers))
-        fputcsv($buffer, $headers, ';');
-    foreach ($data as $val) {
-        fputcsv($buffer, $val, ';');
-    }
-    fclose($buffer);
-    exit();
-}
-
-
 function mailer($subject, $message, $to = "titov_yw@mail.ru")
 {
     $headers = "MIME-Version: 1.0\r\n";
@@ -513,15 +397,6 @@ function mailer($subject, $message, $to = "titov_yw@mail.ru")
     $headers .= "From:mail@fluid-line.ru \r\n";
 
     return mail($to, $subject, $message, $headers);
-}
-
-
-function upload_img_by_url($url, $path)
-{
-    header("Content-type: image/jpeg");
-    $image = curl_get_content($url);
-    file_put_contents($path, $image);
-    return file_exists($path) && filesize($path) ? str_replace($_SERVER['DOCUMENT_ROOT'], '', $path) : false;
 }
 
 
@@ -538,12 +413,10 @@ function upload_files($files, $upload_dir, $rename = 1)
     return $uploaded;
 }
 
-
 function get_current_url()
 {
     return 'http' . ($_SERVER['HTTPS'] ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 }
-
 
 function get_ob_content($file, $data = array())
 {
@@ -561,7 +434,6 @@ function get_ob_content($file, $data = array())
 
     return $html;
 }
-
 
 function get_hash_string($lenght)
 {
@@ -653,120 +525,16 @@ function access()
         header('Location: /');
 }
 
-function who_is($ip)
-{
-    $ch = curl_init('http://ipwhois.app/json/' . $ip . '?lang=ru');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($ch);
-    curl_close($ch);
-    return $response;
-}
-
-//Для выгрузки из bigQuery
-function getQueryApi($sql, $datasetId)
-{
-    global $bigQuery;
-
-    $projectId = "peak-age-279206";
-    $keyFilePath = __DIR__ . "/../dashboard/key.json";
-
-    $bigQuery = new BigQueryClient([
-        "projectId" => $projectId,
-        "keyFilePath" => $keyFilePath,
-    ]);
-
-    $options = [
-        "configuration" => [
-            "query" => [
-                "defaultDataset" => [
-                    "datasetId" => $datasetId,
-                ],
-            ],
-        ],
-    ];
-
-    $config = $bigQuery->query($sql, $options);
-    $queryResults = $bigQuery->runQuery($config);
-
-    //if($query)
-    //   return $queryResults;
-
-    foreach ($queryResults as $i => $row) {
-        foreach ($row as $column => $value)
-            $rows[$i][$column] = trim(json_encode($value), '"');
-    }
-
-    return $rows;
-}
-
 function ip()
 {
     if (!in_array($_SERVER['REMOTE_ADDR'], $GLOBALS['allowed_ip']))
         exit('Доступ запрещен!!!');
 }
 
-function unicode_escape_decode($str)
-{
-    return html_entity_decode(
-        preg_replace('~\\\u([a-zA-Z0-9]{4})~', '&#x$1;', $str), null, 'UTF-8'
-    );
-}
-
-
-function parse_query($url)
-{
-    $url = $url ? $url : get_current_url();
-    $parse_url = parse_url($url);
-    $query_string = $parse_url['query'];
-    $query_explode = explode("&", $query_string);
-    $query = array();
-    foreach ($query_explode as $item) {
-        $item = explode("=", $item);
-        $query[$item[0]] = $item[1];
-    }
-    return $query;
-}
-
-
-function convertToSimpleArray($ar)
-{
-    $toflat = array($ar);
-    $res = array();
-
-    while (($r = array_shift($toflat)) !== NULL) {
-        foreach ($r as $v) {
-            if (is_array($v)) {
-                $toflat[] = $v;
-            } else {
-                $res[] = $v;
-            }
-        }
-    }
-
-    return $res;
-}
-
-function ua_parser($user_agent, $to_string = false)
-{
-
-    if (preg_match('/(ms-office|MSOffice)/', $user_agent))
-        return 'Outlook';
-
-    require_once __DIR__ . '/UserAgentStringParser.class.php';
-    $parser = new UserAgentStringParser();
-    $data = $parser->parse($user_agent);
-
-    if (empty($data))
-        return $user_agent;
-
-    return $to_string ? ($data['browser_name'] . ' ' . $data['browser_version']) : $data;
-}
-
 $email_reg_exp = '/[a-z?A-Z?\d?\-?\._\+]+@[a-z?A-Z?\d?\-?\._]+\.[a-z]+/';
 
 function json_fix_cyr($json_str)
 {
-
     if (!$json_str)
         return '';
 
@@ -774,7 +542,6 @@ function json_fix_cyr($json_str)
         $res = json_decode('{"key":"' . $json_str . '"}', 1);
         return mb_convert_encoding($res['key'], 'UTF-8');
     }
-
 
     $cyr_chars = array(
         '\u0430' => 'а', '\u0410' => 'А',
@@ -820,24 +587,6 @@ function json_fix_cyr($json_str)
         $json_str = str_replace($cyr_char_key, $cyr_char, $json_str);
     }
     return $json_str;
-}
-
-function getYoutubeIdFromUrl($url)
-{
-    $parts = parse_url($url);
-    if (isset($parts['query'])) {
-        parse_str($parts['query'], $qs);
-        if (isset($qs['v'])) {
-            return $qs['v'];
-        } else if (isset($qs['vi'])) {
-            return $qs['vi'];
-        }
-    }
-    if (isset($parts['path'])) {
-        $path = explode('/', trim($parts['path'], '/'));
-        return $path[count($path) - 1];
-    }
-    return false;
 }
 
 $GLOBALS['allowed_ip'] = array(
