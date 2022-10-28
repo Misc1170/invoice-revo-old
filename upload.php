@@ -39,7 +39,7 @@ $file = '/' . $path;
 $sql = 'SELECT `is_paid` FROM `pdf_uploads` WHERE `order_id` = "' . $data['order_id'] . '" LIMIT 1';
 $query = $mysqli->query($sql);
 $fetch = $query->fetch_all(MYSQLI_ASSOC);
-$is_paid = $fetch[0]['is_paid'];
+$is_paid = isset($fetch[0]['is_paid']) ? $fetch[0]['is_paid'] : 0;
 $pay_link = "";
 
 //Формируем ссылку на оплату
