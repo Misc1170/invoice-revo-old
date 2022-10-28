@@ -27,11 +27,20 @@ if ($data['super_is_paid']) {
                     `contract_date` = "' . (strtotime($item['contract_date']) > 0 ? $item['contract_date'] : '') . '"
                 WHERE `order_id` = "' . $item['order_id'] . '"';
         $result[$item['order_id']] = $mysqli->query($sql) ? 1 : 0;
+
+        if($item['order_id'] == 0){
+            throw new \Exception($mysqli->error);
+        }
     }
     echo json_encode(array('result' => $result));
 } else {
     $sql = 'UPDATE `pdf_uploads` SET `is_paid` = 1 WHERE `order_id` = "' . $data['order_id'] . '"';
-    echo json_encode(array('result' => $mysqli->query($sql)));
+    $result = $mysqli->query($sql);
+    
+    if($result == false){
+        throw new \Exception($mysqli->error);
+    }
+    echo json_encode(array('result' => $result));
 }
 
 ?>

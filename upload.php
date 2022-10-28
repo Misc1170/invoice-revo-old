@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: application/json');
 
 $postData = file_get_contents('php://input');
@@ -82,17 +83,22 @@ $sql = 'INSERT INTO `pdf_uploads`
 	               (' . $is_paid . ', 
 	            	"' . $host . $file . '", 
 	            	"' . $hash . '", 
-	            	' . @filesize($path) . ', 
-	            	' . ($data['entity'] ? 1 : 0) . ', 
+	            	'  . @filesize($path) . ', 
+	            	'  . (isset($data['entity']) && $data['entity'] == true ? 1 : 0) . ', 
 	            	"' . $data['order_id'] . '",
-	            	"' . isset($data['pay_block']) && $data['pay_block'] == true ? 1 : 0 . '",
+	            	"' . (isset($data['pay_block']) && $data['pay_block'] == true ? 1 : 0) . '",
 	            	"' . $pay_link . '",
 	            	"' . $data['InvoiceId'] . '",
 	            	"' . $data['email_hash'] . '",
 	            	"' . htmlspecialchars($data['link']) . '")';
 
-if ($upload_success)
+if ($upload_success){
     $result = $mysqli->query($sql);
+
+    if($result == false){
+        throw new \Exception($mysqli->error);
+    }
+}
 
 echo json_encode(array(
     'upload_file-result' => $upload_success,

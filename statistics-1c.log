@@ -1,0 +1,181 @@
+
+Отчёт о добавлении счета № 34803 28.10.2022 13:42:40
+
+Полученные данные:
+InvoiceId: 34803
+entity: 1
+pay_block: 
+email_hash: 3ABC6E870C6620E2AE2114CC31B8869B
+link: InvoiceId=34803&Email=mikhalchenko%40infratechnology.com&AccountId=mikhalchenko%40infratechnology.com&Amount=1363.2&invoice=40-00212%242%24681.6%241363.2
+filename: Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip
+
+Отчёт о загрузке файла Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip:
+Файл загружен: https://fluid-line.ru/upload-pdfs/files/8b8e9baaeaec5bd38240ad14169c65e1/Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+INSERT INTO `pdf_uploads` 
+                   (`is_paid`, 
+                    `path`, 
+                    `hash`, 
+                    `size`, 
+                    `entity`, 
+                    `order_id`, 
+                    `pay_block`, 
+                    `pay_link`, 
+                    `InvoiceId`,
+                    `email_hash`,
+                    `link`)
+	            VALUES 
+	               (1, 
+	            	"https://fluid-line.ru/upload-pdfs/files/8b8e9baaeaec5bd38240ad14169c65e1/Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip", 
+	            	"8b8e9baaeaec5bd38240ad14169c65e1", 
+	            	463230, 
+	            	1, 
+	            	"3e884b8d-56ac-11ed-82aa-00155d000a01",
+	            	"0",
+	            	"https://orders.cloudpayments.ru/d/35ITT9f273cDILvd",
+	            	"34803",
+	            	"3ABC6E870C6620E2AE2114CC31B8869B",
+	            	"InvoiceId=34803&amp;Email=mikhalchenko%40infratechnology.com&amp;AccountId=mikhalchenko%40infratechnology.com&amp;Amount=1363.2&amp;invoice=40-00212%242%24681.6%241363.2")
+Результат запроса
+Добавлено в базу данных: `id` = 26008
+
+Ответ сервера
+upload_file-result: 1,
+insert-database-result: 1,
+link: https://fluid-line.ru/invoice9248b8e9baaeaec5bd38240ad14169c65e1
+
+********************************************************************************************
+
+
+Отчёт о добавлении счета № 34803 28.10.2022 13:43:41
+
+Полученные данные:
+InvoiceId: 34803
+entity: 1
+pay_block: 
+email_hash: 3ABC6E870C6620E2AE2114CC31B8869B
+link: InvoiceId=34803&Email=mikhalchenko%40infratechnology.com&AccountId=mikhalchenko%40infratechnology.com&Amount=1363.2&invoice=40-00212%242%24681.6%241363.2
+filename: Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip
+
+Отчёт о загрузке файла Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip:
+Файл загружен: https://fluid-line.ru/upload-pdfs/files/7ce829074e00f499f60b486b52eb269c/Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+INSERT INTO `pdf_uploads` 
+                   (`is_paid`, 
+                    `path`, 
+                    `hash`, 
+                    `size`, 
+                    `entity`, 
+                    `order_id`, 
+                    `pay_block`, 
+                    `pay_link`, 
+                    `InvoiceId`,
+                    `email_hash`,
+                    `link`)
+	            VALUES 
+	               (1, 
+	            	"https://fluid-line.ru/upload-pdfs/files/7ce829074e00f499f60b486b52eb269c/Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip", 
+	            	"7ce829074e00f499f60b486b52eb269c", 
+	            	463230, 
+	            	1, 
+	            	"3e884b8d-56ac-11ed-82aa-00155d000a01",
+	            	"0",
+	            	"https://orders.cloudpayments.ru/d/2Bd6Fvq2ocHoBg48",
+	            	"34803",
+	            	"3ABC6E870C6620E2AE2114CC31B8869B",
+	            	"InvoiceId=34803&amp;Email=mikhalchenko%40infratechnology.com&amp;AccountId=mikhalchenko%40infratechnology.com&amp;Amount=1363.2&amp;invoice=40-00212%242%24681.6%241363.2")
+Результат запроса
+Добавлено в базу данных: `id` = 26009
+
+Ответ сервера
+upload_file-result: 1,
+insert-database-result: 1,
+link: https://fluid-line.ru/invoice9247ce829074e00f499f60b486b52eb269c
+
+********************************************************************************************
+
+
+Отчёт о добавлении счета № 34803 28.10.2022 13:45:33
+
+Полученные данные:
+InvoiceId: 34803
+entity: 1
+pay_block: 
+email_hash: 3ABC6E870C6620E2AE2114CC31B8869B
+link: InvoiceId=34803&Email=mikhalchenko%40infratechnology.com&AccountId=mikhalchenko%40infratechnology.com&Amount=1363.2&invoice=40-00212%242%24681.6%241363.2
+filename: Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip
+
+Отчёт о загрузке файла Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip:
+Файл загружен: https://fluid-line.ru/upload-pdfs/files/a5d20ad5d252356d60d55187f6c24649/Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+INSERT INTO `pdf_uploads` 
+                   (`is_paid`, 
+                    `path`, 
+                    `hash`, 
+                    `size`, 
+                    `entity`, 
+                    `order_id`, 
+                    `pay_block`, 
+                    `pay_link`, 
+                    `InvoiceId`,
+                    `email_hash`,
+                    `link`)
+	            VALUES 
+	               (0, 
+	            	"https://fluid-line.ru/upload-pdfs/files/a5d20ad5d252356d60d55187f6c24649/Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip", 
+	            	"a5d20ad5d252356d60d55187f6c24649", 
+	            	463230, 
+	            	1, 
+	            	"3e884b8d-56ac-11ed-82aa-00155d000a01",
+	            	"0",
+	            	"https://orders.cloudpayments.ru/d/TYcS3x8tMMwwTfUi",
+	            	"34803",
+	            	"3ABC6E870C6620E2AE2114CC31B8869B",
+	            	"InvoiceId=34803&amp;Email=mikhalchenko%40infratechnology.com&amp;AccountId=mikhalchenko%40infratechnology.com&amp;Amount=1363.2&amp;invoice=40-00212%242%24681.6%241363.2")
+Результат запроса
+Добавлено в базу данных: `id` = 1
+
+Ответ сервера
+upload_file-result: 1,
+insert-database-result: 1,
+link: https://fluid-line.ru/invoice924a5d20ad5d252356d60d55187f6c24649
+
+********************************************************************************************
+
+
+Отчёт о добавлении счета № 34803 28.10.2022 14:00:46
+
+Полученные данные:
+InvoiceId: 34803
+entity: 1
+pay_block: 
+email_hash: 3ABC6E870C6620E2AE2114CC31B8869B
+link: InvoiceId=34803&Email=mikhalchenko%40infratechnology.com&AccountId=mikhalchenko%40infratechnology.com&Amount=1363.2&invoice=40-00212%242%24681.6%241363.2
+filename: Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip
+
+Отчёт о загрузке файла Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip:
+Файл загружен: https://fluid-line.ru/upload-pdfs/files/2c5dce551b0ab12aff8d827187d3a115/Коммерческое предложение и счет на оплату №34803 от 28 октября 2022 г..zip
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+0",
+	            	"https://orders.cloudpayments.ru/d/VCIMwqqJwDfIXHLs",
+	            	"34803",
+	            	"3ABC6E870C6620E2AE2114CC31B8869B",
+	            	"InvoiceId=34803&amp;Email=mikhalchenko%40infratechnology.com&amp;AccountId=mikhalchenko%40infratechnology.com&amp;Amount=1363.2&amp;invoice=40-00212%242%24681.6%241363.2")
+Результат запроса
+Не добавлено в базу данных
+
+Ответ сервера
+upload_file-result: 1,
+insert-database-result: ,
+link: 
+
+********************************************************************************************
+
