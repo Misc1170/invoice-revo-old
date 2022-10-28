@@ -39,7 +39,7 @@ $file = '/' . $path;
 $sql = 'SELECT `is_paid` FROM `pdf_uploads` WHERE `order_id` = "' . $data['order_id'] . '" LIMIT 1';
 $query = $mysqli->query($sql);
 $fetch = $query->fetch_all(MYSQLI_ASSOC);
-$is_paid = isset($fetch[0]['is_paid']) ? $fetch[0]['is_paid'] : 0;
+$is_paid = isset($fetch[0]['is_paid']) ? 1 : 0;
 $pay_link = "";
 
 //Формируем ссылку на оплату
@@ -79,13 +79,13 @@ $sql = 'INSERT INTO `pdf_uploads`
                     `email_hash`,
                     `link`)
 	            VALUES 
-	               ("' . $is_paid . '", 
+	               (' . $is_paid . ', 
 	            	"' . $host . $file . '", 
 	            	"' . $hash . '", 
 	            	' . @filesize($path) . ', 
 	            	' . ($data['entity'] ? 1 : 0) . ', 
 	            	"' . $data['order_id'] . '",
-	            	"' . $data['pay_block'] . '",
+	            	"' . isset($data['pay_block']) && $data['pay_block'] == true ? 1 : 0 . '",
 	            	"' . $pay_link . '",
 	            	"' . $data['InvoiceId'] . '",
 	            	"' . $data['email_hash'] . '",
@@ -93,7 +93,6 @@ $sql = 'INSERT INTO `pdf_uploads`
 
 if ($upload_success)
     $result = $mysqli->query($sql);
-
 
 echo json_encode(array(
     'upload_file-result' => $upload_success,
