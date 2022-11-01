@@ -7,7 +7,7 @@ $data = json_decode($postData, true);
 $config = require_once __DIR__ . '/config.php';
 $db_config = $config['databases']['main'];
 
-mysqli_report(MYSQLI_REPORT_ALL);
+mysqli_report(MYSQLI_REPORT_STRICT);
 $mysqli = new mysqli(
     $db_config['host'] . ':' . $db_config['port'],
     $db_config['user'], 
@@ -15,7 +15,7 @@ $mysqli = new mysqli(
     $db_config['db']
 );
 
-if ($data['super_is_paid']) {
+if (isset($data['super_is_paid'])) {
     $result = array();
     foreach ($data['data'] as $item) {
         $sql = 'UPDATE `pdf_uploads` 

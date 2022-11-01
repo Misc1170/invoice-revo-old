@@ -90,7 +90,7 @@ if(!isset($_GET['q'])){
 $config = require_once __DIR__ . '/config.php';
 $db_config = $config['databases']['main'];
 
-mysqli_report(MYSQLI_REPORT_ALL);
+mysqli_report(MYSQLI_REPORT_STRICT);
 $mysqli = new mysqli(
     $db_config['host'] . ':' . $db_config['port'],
     $db_config['user'], 
