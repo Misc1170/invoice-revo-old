@@ -90,16 +90,13 @@ if(!isset($_GET['q'])){
 $config = require_once __DIR__ . '/config.php';
 $db_config = $config['databases']['main'];
 
+mysqli_report(MYSQLI_REPORT_ALL);
 $mysqli = new mysqli(
     $db_config['host'] . ':' . $db_config['port'],
     $db_config['user'], 
     $db_config['password'], 
     $db_config['db']
 );
-
-if (mysqli_connect_errno()) {
-    printf("Connect failed: %s\n", mysqli_connect_error());
-}
 
 $hash = trim(str_replace('invoice924', '', $_GET['q']), '/');
 
@@ -125,7 +122,7 @@ if (strtotime($fetch['visited']) < 0) {
 
 $fetch['path'] = str_replace(
     'https://fluid-line.ru',
-    'http://revo-test.site/',
+    'http://' . $_SERVER['HTTP_HOST'] .'/',
     $fetch['path']
 );
 
@@ -169,7 +166,6 @@ if (isset($_GET['open-invoice'])) {
 SCRIPT;
     exit();
 }
-
 
 $pdfFile = end(explode('/', $pdfPath));
 
