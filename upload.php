@@ -11,8 +11,8 @@ $db_config = $config['databases']['main'];
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $mysqli = new mysqli(
     $db_config['host'] . ':' . $db_config['port'],
-    $db_config['user'], 
-    $db_config['password'], 
+    $db_config['user'],
+    $db_config['password'],
     $db_config['db']
 );
 $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

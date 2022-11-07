@@ -25,9 +25,12 @@ if (isset($data['super_is_paid'])) {
                     `paid_date` = "' . $item['paid_date'] . '",
                     `order_amount` = "' . $item['order_amount'] . '",
                     `paid_amount` = "' . $item['paid_amount'] . '",
-                    `paid_detail` = "' . str_replace('"', '\"', serialize($item['paid_detail'])) . '",
-                    `contract_date` = "' . (strtotime($item['contract_date']) > 0 ? $item['contract_date'] : '') . '"
-                WHERE `order_id` = "' . $item['order_id'] . '"';
+                    `paid_detail` = "' . str_replace('"', '\"', serialize($item['paid_detail'])) . '"';
+
+                    if(strtotime($item['contract_date']) > 0){
+                        $sql .= ', `contract_date` = "' . $item['contract_date'] . '"';
+                    }
+                $sql .= ' WHERE `order_id` = "' . $item['order_id'] . '"';
         $result[$item['order_id']] = $mysqli->query($sql) !== false ? 1 : 0;
     }
     echo json_encode(array('result' => $result));
