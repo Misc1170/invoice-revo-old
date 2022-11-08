@@ -104,6 +104,11 @@ $sql = 'SELECT * FROM `pdf_uploads` WHERE `hash` = "' . $hash . '" LIMIT 1';
 $query = $mysqli->query($sql);
 $fetch = current($query->fetch_all(MYSQLI_ASSOC));
 
+if(!$fetch){
+    echo 'Не удалось найти ваш заказ';
+    return;
+}
+
 $sql = 'UPDATE `pdf_uploads` SET 
             `lastAction` = CURRENT_TIMESTAMP,
             `views` = `views` + 1 
