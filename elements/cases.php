@@ -1,12 +1,12 @@
 <?php
 
-$config = require_once __DIR__ . '/../config.php';
+$cases_db_config = $config['databases']['cases']; 
 
 $mysql_fl = new mysqli(
-    $config['databases']['cases']['host'] . ':' . $config['databases']['cases']['port'], 
-    $config['databases']['cases']['user'], 
-    $config['databases']['cases']['password'], 
-    $config['databases']['cases']['db']
+    $cases_db_config['host'] . ':' . $cases_db_config['port'], 
+    $cases_db_config['user'], 
+    $cases_db_config['password'],
+    $cases_db_config['db']
 );
 $mysql_fl->query("set character_set_client='utf8'");
 $mysql_fl->query("set character_set_results='utf8'");
