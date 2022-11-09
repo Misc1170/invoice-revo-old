@@ -8,9 +8,7 @@ $mysql_fl = new mysqli(
     $cases_db_config['password'],
     $cases_db_config['db']
 );
-$mysql_fl->query("set character_set_client='utf8'");
-$mysql_fl->query("set character_set_results='utf8'");
-$mysql_fl->query("set collation_connection='utf8'");
+$mysql_fl->query("set names utf8");
 
 $sql_cases = <<<SQL
 SELECT DISTINCT 
