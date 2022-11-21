@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'isHealthy' => true, // true - server can recieve responses from Load Balancer. false - can`t.
     'databases' => [
         'main' => [
             'host' => 'localhost',
