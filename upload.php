@@ -9,11 +9,19 @@ $config = require_once __DIR__ . '/config.php';
 $db_config = $config['databases']['main'];
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-$mysqli = new mysqli(
-    $db_config['host'] . ':' . $db_config['port'],
-    $db_config['user'],
+$mysqli = mysqli_init();
+
+$mysqli->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
+$mysqli->ssl_set(NULL, NULL, $db_config['cert_path'], NULL, NULL);
+
+$mysqli->real_connect(
+    $db_config['host'],
+    $db_config['user'], 
     $db_config['password'],
-    $db_config['db']
+    $db_config['db'], 
+    $db_config['port'], 
+    NULL,
+    MYSQLI_CLIENT_SSL
 );
 $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 

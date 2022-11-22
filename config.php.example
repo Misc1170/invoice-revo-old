@@ -4,6 +4,7 @@ return [
     'isHealthy' => true, // true - server can recieve responses from Load Balancer. false - can`t.
     'databases' => [
         'main' => [
+            'cert_path' => '/var/www/certs/mysql_db.crt',
             'host' => 'localhost',
             'port' => '3306',
             'user' => '123',
