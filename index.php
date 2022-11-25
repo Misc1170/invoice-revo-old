@@ -1,6 +1,5 @@
 <?php
 
-
 function curl_get_content($url)
 {
     $url = urldecode($url);
@@ -51,8 +50,6 @@ function deleteUnzipped($path)
 
 function unzip($zipFile, $extract2, $path)
 {
-
-    session_start();
     deleteUnzipped($extract2);
     $zip = new ZipArchive();
 
@@ -87,24 +84,10 @@ if(!isset($_GET['q'])){
     return;
 }
 
-$config = require_once __DIR__ . '/config.php';
-$db_config = $config['databases']['main'];
+session_start();
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-$mysqli = mysqli_init();
-
-$mysqli->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
-$mysqli->ssl_set(NULL, NULL, $db_config['cert_path'], NULL, NULL);
-
-$mysqli->real_connect(
-    $db_config['host'],
-    $db_config['user'], 
-    $db_config['password'],
-    $db_config['db'], 
-    $db_config['port'], 
-    NULL,
-    MYSQLI_CLIENT_SSL
-);
+require_once __DIR__ . '/Src/init.php';
+$mysqli = $DbService->getConnection();
 
 $hash = trim(str_replace('invoice924', '', $_GET['q']), '/');
 
@@ -219,4 +202,3 @@ include_once 'elements/feedback.php';
 
 //Подвал
 include_once 'elements/footer.php';
-

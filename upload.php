@@ -5,24 +5,9 @@ header('Content-Type: application/json');
 $postData = file_get_contents('php://input');
 $data = json_decode($postData, true);
 
-$config = require_once __DIR__ . '/config.php';
-$db_config = $config['databases']['main'];
+require_once __DIR__ . '/Src/init.php';
+$mysqli = $DbService->getConnection();
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-$mysqli = mysqli_init();
-
-$mysqli->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
-$mysqli->ssl_set(NULL, NULL, $db_config['cert_path'], NULL, NULL);
-
-$mysqli->real_connect(
-    $db_config['host'],
-    $db_config['user'], 
-    $db_config['password'],
-    $db_config['db'], 
-    $db_config['port'], 
-    NULL,
-    MYSQLI_CLIENT_SSL
-);
 $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 // Чтобы хеш не повторялся
@@ -32,15 +17,20 @@ do {
     $query = $mysqli->query($sql);
 } while ($query->num_rows > 0);
 
-$path = 'upload-pdfs/files/' . $hash . '/';
+if(!isset($data['filename']) || $data['filename'] == ''){
+    throw new Exception('Не удалось найти имя файла');
+}
 
-if (!is_dir($path))
-    mkdir($path, 0777, true);
+$path = $hash . '/' . $data['filename'];
+$FileService->upload($path, base64_decode($data['file']));
+if(!$FileService->doesObjectExists($path)){
+    throw new Exception("Не удалось создать файл '$path'");
+}
 
-$path .= $data['filename'];
-$result = file_put_contents($path, base64_decode($data['file']));
+$objectInfo = $FileService->headObject($path);
+$filesize = $objectInfo['ContentLength'];
 
-$upload_success = file_exists($path);
+unset($data['file']);
 
 $host = 'https://fluid-line.ru';
 $file = '/' . $path;
@@ -72,15 +62,11 @@ if ($data['link']) {
     } while (!$pay_link);
 }
 
-
-$data_to_string = $data;
-unset($data_to_string['file']);
-
 $sql = 'INSERT INTO `pdf_uploads` 
                    (`is_paid`, 
                     `path`, 
-                    `hash`, 
-                    `size`, 
+                    `hash`,
+                    `size`,
                     `entity`, 
                     `order_id`, 
                     `pay_block`, 
@@ -91,8 +77,8 @@ $sql = 'INSERT INTO `pdf_uploads`
 	            VALUES 
 	               (' . $is_paid . ', 
 	            	"' . $host . $file . '", 
-	            	"' . $hash . '", 
-	            	'  . @filesize($path) . ', 
+	            	"' . $hash . '",
+                    "' . $filesize . '",
 	            	'  . (isset($data['entity']) && $data['entity'] == true ? 1 : 0) . ', 
 	            	"' . $data['order_id'] . '",
 	            	"' . (isset($data['pay_block']) && $data['pay_block'] == true ? 1 : 0) . '",
@@ -101,22 +87,19 @@ $sql = 'INSERT INTO `pdf_uploads`
 	            	"' . $data['email_hash'] . '",
 	            	"' . htmlspecialchars($data['link']) . '")';
 
-if ($upload_success){
-    $result = $mysqli->query($sql);
-}
+
+$result = $mysqli->query($sql);
+$link = $host . '/invoice924' . $hash;
 
 echo json_encode(array(
-    'upload_file-result' => $upload_success,
     'insert-database-result' => $result,
-    'link' => $result && $upload_success ? $host . '/invoice924' . $hash : ""
+    'link' => $link
 ));
 
-
 $datetime = date('d.m.Y H:i:s');
-
-$upload_log = $upload_success ? "загружен: $host$file" : "не загружен";
-$insert_query_log = $result ? "Добавлено в базу данных: `id` = $mysqli->insert_id" : "Не добавлено в базу данных";
-$link_log = $result && $upload_success ? $host . '/invoice924' . $hash : "";
+$insert_query_log = $result 
+    ? "Добавлено в базу данных: `id` = $mysqli->insert_id" 
+    : "Не добавлено в базу данных";
 
 $log = <<<LOG
 
@@ -131,7 +114,7 @@ link: $data[link]
 filename: $data[filename]
 
 Отчёт о загрузке файла $data[filename]:
-Файл $upload_log
+Файл загружен: $host$file
 
 Отчёт о добавлении в базу данных:
 Текст запроса
@@ -140,9 +123,8 @@ $sql
 $insert_query_log
 
 Ответ сервера
-upload_file-result: $upload_success,
 insert-database-result: $result,
-link: $link_log
+link: $link
 
 ********************************************************************************************
 LOG;

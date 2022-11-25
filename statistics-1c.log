@@ -179,3 +179,487 @@ link:
 
 ********************************************************************************************
 
+
+Отчёт о добавлении счета № 123 23.11.2022 18:22:32
+
+Полученные данные:
+InvoiceId: 123
+entity: 
+pay_block: 
+email_hash: test@tes.t
+link: 
+filename: test.zip
+
+Отчёт о загрузке файла test.zip:
+Файл загружен: https://fluid-line.ru/3f238d0f510568981a237be2b35ff90b/test.zip
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+INSERT INTO `pdf_uploads` 
+                   (`is_paid`, 
+                    `path`, 
+                    `hash`, 
+                    `size`, 
+                    `entity`, 
+                    `order_id`, 
+                    `pay_block`, 
+                    `pay_link`, 
+                    `InvoiceId`,
+                    `email_hash`,
+                    `link`)
+	            VALUES 
+	               (0, 
+	            	"https://fluid-line.ru/3f238d0f510568981a237be2b35ff90b/test.zip", 
+	            	"3f238d0f510568981a237be2b35ff90b", 
+	            	123, 
+	            	0, 
+	            	"123",
+	            	"0",
+	            	"",
+	            	"123",
+	            	"test@tes.t",
+	            	"")
+Результат запроса
+Добавлено в базу данных: `id` = 1
+
+Ответ сервера
+upload_file-result: ,
+insert-database-result: 1,
+link: https://fluid-line.ru/invoice9243f238d0f510568981a237be2b35ff90b
+
+********************************************************************************************
+
+
+Отчёт о добавлении счета № 123 23.11.2022 18:27:48
+
+Полученные данные:
+InvoiceId: 123
+entity: 
+pay_block: 
+email_hash: test@tes.t
+link: 
+filename: test.zip
+
+Отчёт о загрузке файла test.zip:
+Файл загружен: https://fluid-line.ru/aacb8edaea98dce6aa38cb6a18f67228/test.zip
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+INSERT INTO `pdf_uploads` 
+                   (`is_paid`, 
+                    `path`, 
+                    `hash`,
+                    `entity`, 
+                    `order_id`, 
+                    `pay_block`, 
+                    `pay_link`, 
+                    `InvoiceId`,
+                    `email_hash`,
+                    `link`)
+	            VALUES 
+	               (1, 
+	            	"https://fluid-line.ru/aacb8edaea98dce6aa38cb6a18f67228/test.zip", 
+	            	"aacb8edaea98dce6aa38cb6a18f67228",
+	            	0, 
+	            	"123",
+	            	"0",
+	            	"",
+	            	"123",
+	            	"test@tes.t",
+	            	"")
+Результат запроса
+Добавлено в базу данных: `id` = 2
+
+Ответ сервера
+upload_file-result: ,
+insert-database-result: 1,
+link: https://fluid-line.ru/invoice924aacb8edaea98dce6aa38cb6a18f67228
+
+********************************************************************************************
+
+
+Отчёт о добавлении счета № 123 23.11.2022 18:27:51
+
+Полученные данные:
+InvoiceId: 123
+entity: 
+pay_block: 
+email_hash: test@tes.t
+link: 
+filename: test.zip
+
+Отчёт о загрузке файла test.zip:
+Файл загружен: https://fluid-line.ru/d844ec30e854c0691b071b775a81fb79/test.zip
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+INSERT INTO `pdf_uploads` 
+                   (`is_paid`, 
+                    `path`, 
+                    `hash`,
+                    `entity`, 
+                    `order_id`, 
+                    `pay_block`, 
+                    `pay_link`, 
+                    `InvoiceId`,
+                    `email_hash`,
+                    `link`)
+	            VALUES 
+	               (1, 
+	            	"https://fluid-line.ru/d844ec30e854c0691b071b775a81fb79/test.zip", 
+	            	"d844ec30e854c0691b071b775a81fb79",
+	            	0, 
+	            	"123",
+	            	"0",
+	            	"",
+	            	"123",
+	            	"test@tes.t",
+	            	"")
+Результат запроса
+Добавлено в базу данных: `id` = 3
+
+Ответ сервера
+upload_file-result: ,
+insert-database-result: 1,
+link: https://fluid-line.ru/invoice924d844ec30e854c0691b071b775a81fb79
+
+********************************************************************************************
+
+
+Отчёт о добавлении счета № 123 23.11.2022 18:27:52
+
+Полученные данные:
+InvoiceId: 123
+entity: 
+pay_block: 
+email_hash: test@tes.t
+link: 
+filename: test.zip
+
+Отчёт о загрузке файла test.zip:
+Файл загружен: https://fluid-line.ru/912ee21ba7ad8115387f9434dc43d486/test.zip
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+INSERT INTO `pdf_uploads` 
+                   (`is_paid`, 
+                    `path`, 
+                    `hash`,
+                    `entity`, 
+                    `order_id`, 
+                    `pay_block`, 
+                    `pay_link`, 
+                    `InvoiceId`,
+                    `email_hash`,
+                    `link`)
+	            VALUES 
+	               (1, 
+	            	"https://fluid-line.ru/912ee21ba7ad8115387f9434dc43d486/test.zip", 
+	            	"912ee21ba7ad8115387f9434dc43d486",
+	            	0, 
+	            	"123",
+	            	"0",
+	            	"",
+	            	"123",
+	            	"test@tes.t",
+	            	"")
+Результат запроса
+Добавлено в базу данных: `id` = 4
+
+Ответ сервера
+upload_file-result: ,
+insert-database-result: 1,
+link: https://fluid-line.ru/invoice924912ee21ba7ad8115387f9434dc43d486
+
+********************************************************************************************
+
+
+Отчёт о добавлении счета № 123 23.11.2022 18:27:53
+
+Полученные данные:
+InvoiceId: 123
+entity: 
+pay_block: 
+email_hash: test@tes.t
+link: 
+filename: test.zip
+
+Отчёт о загрузке файла test.zip:
+Файл загружен: https://fluid-line.ru/a5278bca128fafc59b2893daed5adb66/test.zip
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+INSERT INTO `pdf_uploads` 
+                   (`is_paid`, 
+                    `path`, 
+                    `hash`,
+                    `entity`, 
+                    `order_id`, 
+                    `pay_block`, 
+                    `pay_link`, 
+                    `InvoiceId`,
+                    `email_hash`,
+                    `link`)
+	            VALUES 
+	               (1, 
+	            	"https://fluid-line.ru/a5278bca128fafc59b2893daed5adb66/test.zip", 
+	            	"a5278bca128fafc59b2893daed5adb66",
+	            	0, 
+	            	"123",
+	            	"0",
+	            	"",
+	            	"123",
+	            	"test@tes.t",
+	            	"")
+Результат запроса
+Добавлено в базу данных: `id` = 5
+
+Ответ сервера
+upload_file-result: ,
+insert-database-result: 1,
+link: https://fluid-line.ru/invoice924a5278bca128fafc59b2893daed5adb66
+
+********************************************************************************************
+
+
+Отчёт о добавлении счета № 123 23.11.2022 18:27:54
+
+Полученные данные:
+InvoiceId: 123
+entity: 
+pay_block: 
+email_hash: test@tes.t
+link: 
+filename: test.zip
+
+Отчёт о загрузке файла test.zip:
+Файл загружен: https://fluid-line.ru/93955894a07399745b1523a44bc783a7/test.zip
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+INSERT INTO `pdf_uploads` 
+                   (`is_paid`, 
+                    `path`, 
+                    `hash`,
+                    `entity`, 
+                    `order_id`, 
+                    `pay_block`, 
+                    `pay_link`, 
+                    `InvoiceId`,
+                    `email_hash`,
+                    `link`)
+	            VALUES 
+	               (1, 
+	            	"https://fluid-line.ru/93955894a07399745b1523a44bc783a7/test.zip", 
+	            	"93955894a07399745b1523a44bc783a7",
+	            	0, 
+	            	"123",
+	            	"0",
+	            	"",
+	            	"123",
+	            	"test@tes.t",
+	            	"")
+Результат запроса
+Добавлено в базу данных: `id` = 6
+
+Ответ сервера
+upload_file-result: ,
+insert-database-result: 1,
+link: https://fluid-line.ru/invoice92493955894a07399745b1523a44bc783a7
+
+********************************************************************************************
+
+
+Отчёт о добавлении счета № 123 23.11.2022 18:28:20
+
+Полученные данные:
+InvoiceId: 123
+entity: 
+pay_block: 
+email_hash: test@tes.t
+link: 
+filename: test.zip
+
+Отчёт о загрузке файла test.zip:
+Файл загружен: https://fluid-line.ru/1c6c7db21a7661ca8305d4562f5848fc/test.zip
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+INSERT INTO `pdf_uploads` 
+                   (`is_paid`, 
+                    `path`, 
+                    `hash`,
+                    `entity`, 
+                    `order_id`, 
+                    `pay_block`, 
+                    `pay_link`, 
+                    `InvoiceId`,
+                    `email_hash`,
+                    `link`)
+	            VALUES 
+	               (1, 
+	            	"https://fluid-line.ru/1c6c7db21a7661ca8305d4562f5848fc/test.zip", 
+	            	"1c6c7db21a7661ca8305d4562f5848fc",
+	            	0, 
+	            	"123",
+	            	"0",
+	            	"",
+	            	"123",
+	            	"test@tes.t",
+	            	"")
+Результат запроса
+Добавлено в базу данных: `id` = 7
+
+Ответ сервера
+upload_file-result: ,
+insert-database-result: 1,
+link: https://fluid-line.ru/invoice9241c6c7db21a7661ca8305d4562f5848fc
+
+********************************************************************************************
+
+
+Отчёт о добавлении счета № 123 23.11.2022 18:28:35
+
+Полученные данные:
+InvoiceId: 123
+entity: 
+pay_block: 
+email_hash: test@tes.t
+link: 
+filename: 
+
+Отчёт о загрузке файла :
+Файл загружен: https://fluid-line.ru/f31170be18476b9bc438b0d6a7b3c16d/
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+INSERT INTO `pdf_uploads` 
+                   (`is_paid`, 
+                    `path`, 
+                    `hash`,
+                    `entity`, 
+                    `order_id`, 
+                    `pay_block`, 
+                    `pay_link`, 
+                    `InvoiceId`,
+                    `email_hash`,
+                    `link`)
+	            VALUES 
+	               (1, 
+	            	"https://fluid-line.ru/f31170be18476b9bc438b0d6a7b3c16d/", 
+	            	"f31170be18476b9bc438b0d6a7b3c16d",
+	            	0, 
+	            	"123",
+	            	"0",
+	            	"",
+	            	"123",
+	            	"test@tes.t",
+	            	"")
+Результат запроса
+Добавлено в базу данных: `id` = 8
+
+Ответ сервера
+upload_file-result: ,
+insert-database-result: 1,
+link: https://fluid-line.ru/invoice924f31170be18476b9bc438b0d6a7b3c16d
+
+********************************************************************************************
+
+
+Отчёт о добавлении счета № 36933 24.11.2022 09:49:36
+
+Полученные данные:
+InvoiceId: 36933
+entity: 1
+pay_block: 
+email_hash: C52B0ACB15C739488C7182607A1047BB
+link: InvoiceId=36933&Email=aigul-zmz%40mail.ru&AccountId=aigul-zmz%40mail.ru&Amount=910897.4&invoice=TL-8x1mm-S316%2F316L%2528Korea%2529%24505%24940.67%24475037.34%2F%2FTL-10x1.5mm-S316%2F316L%2528Korea%2529%2424%241348.26%2432358.24%2F%2FTL-12x1mm-S316%2F316L%24396%241018.94%24403501.82
+filename: Коммерческое предложение и счет на оплату №36933 от 22 ноября 2022 г..zip
+
+Отчёт о загрузке файла Коммерческое предложение и счет на оплату №36933 от 22 ноября 2022 г..zip:
+Файл загружен: https://fluid-line.ru/ec79004c6916624eb0a8c8b231bfa66a/Коммерческое предложение и счет на оплату №36933 от 22 ноября 2022 г..zip
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+INSERT INTO `pdf_uploads` 
+                   (`is_paid`, 
+                    `path`, 
+                    `hash`,
+                    `entity`, 
+                    `order_id`, 
+                    `pay_block`, 
+                    `pay_link`, 
+                    `InvoiceId`,
+                    `email_hash`,
+                    `link`)
+	            VALUES 
+	               (0, 
+	            	"https://fluid-line.ru/ec79004c6916624eb0a8c8b231bfa66a/Коммерческое предложение и счет на оплату №36933 от 22 ноября 2022 г..zip", 
+	            	"ec79004c6916624eb0a8c8b231bfa66a",
+	            	1, 
+	            	"f694cf1d-6a3d-11ed-82b1-00155d000a01",
+	            	"0",
+	            	"https://orders.cloudpayments.ru/d/qiqLZWAevTKogxBT",
+	            	"36933",
+	            	"C52B0ACB15C739488C7182607A1047BB",
+	            	"InvoiceId=36933&amp;Email=aigul-zmz%40mail.ru&amp;AccountId=aigul-zmz%40mail.ru&amp;Amount=910897.4&amp;invoice=TL-8x1mm-S316%2F316L%2528Korea%2529%24505%24940.67%24475037.34%2F%2FTL-10x1.5mm-S316%2F316L%2528Korea%2529%2424%241348.26%2432358.24%2F%2FTL-12x1mm-S316%2F316L%24396%241018.94%24403501.82")
+Результат запроса
+Добавлено в базу данных: `id` = 9
+
+Ответ сервера
+upload_file-result: ,
+insert-database-result: 1,
+link: https://fluid-line.ru/invoice924ec79004c6916624eb0a8c8b231bfa66a
+
+********************************************************************************************
+
+
+Отчёт о добавлении счета № 36933 24.11.2022 10:15:17
+
+Полученные данные:
+InvoiceId: 36933
+entity: 1
+pay_block: 
+email_hash: C52B0ACB15C739488C7182607A1047BB
+link: InvoiceId=36933&Email=aigul-zmz%40mail.ru&AccountId=aigul-zmz%40mail.ru&Amount=910897.4&invoice=TL-8x1mm-S316%2F316L%2528Korea%2529%24505%24940.67%24475037.34%2F%2FTL-10x1.5mm-S316%2F316L%2528Korea%2529%2424%241348.26%2432358.24%2F%2FTL-12x1mm-S316%2F316L%24396%241018.94%24403501.82
+filename: Коммерческое предложение и счет на оплату №36933 от 22 ноября 2022 г..zip
+
+Отчёт о загрузке файла Коммерческое предложение и счет на оплату №36933 от 22 ноября 2022 г..zip:
+Файл загружен: https://fluid-line.ru/9731121c5fb87ddbd0b5684d45d276d7/Коммерческое предложение и счет на оплату №36933 от 22 ноября 2022 г..zip
+
+Отчёт о добавлении в базу данных:
+Текст запроса
+INSERT INTO `pdf_uploads` 
+                   (`is_paid`, 
+                    `path`, 
+                    `hash`,
+                    `size`,
+                    `entity`, 
+                    `order_id`, 
+                    `pay_block`, 
+                    `pay_link`, 
+                    `InvoiceId`,
+                    `email_hash`,
+                    `link`)
+	            VALUES 
+	               (0, 
+	            	"https://fluid-line.ru/9731121c5fb87ddbd0b5684d45d276d7/Коммерческое предложение и счет на оплату №36933 от 22 ноября 2022 г..zip", 
+	            	"9731121c5fb87ddbd0b5684d45d276d7",
+                    "791689",
+	            	1, 
+	            	"f694cf1d-6a3d-11ed-82b1-00155d000a01",
+	            	"0",
+	            	"https://orders.cloudpayments.ru/d/FvJIwmYI3Zk5FBPL",
+	            	"36933",
+	            	"C52B0ACB15C739488C7182607A1047BB",
+	            	"InvoiceId=36933&amp;Email=aigul-zmz%40mail.ru&amp;AccountId=aigul-zmz%40mail.ru&amp;Amount=910897.4&amp;invoice=TL-8x1mm-S316%2F316L%2528Korea%2529%24505%24940.67%24475037.34%2F%2FTL-10x1.5mm-S316%2F316L%2528Korea%2529%2424%241348.26%2432358.24%2F%2FTL-12x1mm-S316%2F316L%24396%241018.94%24403501.82")
+Результат запроса
+Добавлено в базу данных: `id` = 1
+
+Ответ сервера
+upload_file-result: ,
+insert-database-result: 1,
+link: https://fluid-line.ru/invoice9249731121c5fb87ddbd0b5684d45d276d7
+
+********************************************************************************************
+
