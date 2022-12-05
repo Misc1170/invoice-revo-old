@@ -22,7 +22,7 @@ class StorageDatabase{
             $database, 
             $port, 
             NULL,
-            MYSQLI_CLIENT_SSL
+            NULL
         );
     }
 

@@ -13,11 +13,6 @@
     Deny from all
 </Files>
 
-<Directory "vendor">
-    AllowOverride None
-    Require all denied
-</Directory>
-
 RewriteCond %{REQUEST_URI} \.(svg|css|js|jpe?g|png|pdf|gif|pdf)$
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
 RewriteRule ^(.*)$ - [L,R=404]
