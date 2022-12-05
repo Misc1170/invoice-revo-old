@@ -14,7 +14,8 @@ $DbService = new StorageDatabase(
     $db_config['port'],
     $db_config['user'],
     $db_config['password'],
-    $db_config['db']
+    $db_config['db'],
+    $db_config['cert_path']
 ); 
 
 $FileService = new StorageFileService(

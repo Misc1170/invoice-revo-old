@@ -10,7 +10,8 @@ return [
             'port' => '3306',
             'user' => '123',
             'password' => '123',
-            'db' => '123'
+            'db' => '123',
+            'cert_path' => '/var/www/certs/mysql/fluid_db.crt'
         ],
         'cases' => [
             'host' => 'localhost',
