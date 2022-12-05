@@ -13,15 +13,20 @@ $fetch = $query->fetch_all(MYSQLI_ASSOC);
 
 foreach ($fetch as $row) {
 
-    $path = str_replace('http://' . $_SERVER['HTTP_HOST'], $_SERVER['DOCUMENT_ROOT'], $path);
+    $path = __DIR__ . '/upload-pdfs/files/' . trim($row['path'], '\\/');
     $explode = explode('/', $path);
     array_pop($explode);
     $path = implode('/', $explode) . '/unzipped/';
     $files = is_dir( $path ) ? array_slice(scandir($path), 2) : array();
 
-    if(empty($files))
+    if(empty($files)){
         continue;
+    }
 
+    // Архивы лежат в S3 бакете, поэтому можно удалить локально скачанные
+    unlink($path);
+
+    // Удаляем разархивированные файлы
     foreach($files as $file){
         if(file_exists($path . $file)){
             unlink($path . $file);
@@ -30,4 +35,3 @@ foreach ($fetch as $row) {
 
     }
 }
-?>

@@ -1,0 +1,35 @@
+<Files "composer.json">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files "composer.lock">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files "delete.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Directory "vendor">
+    AllowOverride None
+    Require all denied
+</Directory>
+
+RewriteCond %{REQUEST_URI} \.(svg|css|js|jpe?g|png|pdf|gif|pdf)$
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+RewriteRule ^(.*)$ - [L,R=404]
+
+# The Friendly URLs part
+RewriteCond %{REQUEST_URI} !^/server\-status\/?$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?q=$1 [L,QSA]
+
+# without www all domains
+RewriteCond %{REQUEST_URI} !^/server\-status\/?$
+RewriteCond %{HTTP_HOST} .
+RewriteCond %{HTTP_HOST} ^www.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]

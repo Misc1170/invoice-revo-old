@@ -48,9 +48,10 @@ function deleteUnzipped($path)
     return true;
 }
 
-function unzip($zipFile, $extract2, $path)
+function unzip($zipFile, $extract2)
 {
     deleteUnzipped($extract2);
+
     $zip = new ZipArchive();
 
     $zip_status = file_exists($zipFile) ? $zip->open($zipFile) : false;
@@ -69,9 +70,8 @@ function unzip($zipFile, $extract2, $path)
     }
 
     $pdfFile = current(array_slice(scandir($extract2), 2));
-    $path_zip = explode('/', $path);
-    array_pop($path_zip);
-    return implode('/', $path_zip) . '/unzipped/' . $pdfFile;
+
+    return $extract2 . $pdfFile;
 }
 
 
@@ -100,10 +100,7 @@ if(!$fetch){
     return;
 }
 
-$sql = 'UPDATE `pdf_uploads` SET 
-            `lastAction` = CURRENT_TIMESTAMP,
-            `views` = `views` + 1 
-        WHERE `id` = ' . $fetch['id'];
+$sql = 'UPDATE `pdf_uploads` SET `lastAction` = CURRENT_TIMESTAMP, `views` = `views` + 1 WHERE `id` = ' . $fetch['id'];
 $query = $mysqli->query($sql);
 
 
@@ -116,28 +113,21 @@ if (strtotime($fetch['visited']) < 0) {
     $query = $mysqli->query($sql);
 }
 
-$fetch['path'] = str_replace(
-    'https://fluid-line.ru',
-    'http://' . $_SERVER['HTTP_HOST'] .'/',
-    $fetch['path']
-);
-
 $explode = explode('/', $fetch['path']);
 $fileName = end($explode);
 $fileSize = getFileSize($fetch['size']);
 
-$zipFile = str_replace(
-    array('http://' . $_SERVER['HTTP_HOST'], 'https://fluid-line.ru'),
-    $_SERVER['DOCUMENT_ROOT'],
-    $fetch['path']
-);
+$zipFile = __DIR__ . '/upload-pdfs/files/' . trim($fetch['path'], '\\/');
+
+//Скачиваем файл из облака
+$FileService->downloadAs($fetch['hash'] . '/' . basename($fetch['path']), $zipFile);
 
 $pathArr = explode('/', $zipFile);
 array_pop($pathArr);
 $extract2 = implode('/', $pathArr) . '/unzipped/';
 
 //Распаковка
-$pdfPath = unzip($zipFile, $extract2, $fetch['path']);
+$pdfPath = unzip($zipFile, $extract2);
 if ($pdfPath)
     $mysqli->query('UPDATE `pdf_uploads` SET `unzip` = 1 WHERE `id` = ' . $fetch['id']);
 
@@ -145,18 +135,6 @@ if (isset($_GET['open-invoice'])) {
     $pdfPath = $hash . end(explode($hash, $pdfPath));
     echo <<<SCRIPT
 <script>
-    fetch('delete-file.php', {
-            method: 'POST',
-            body: JSON.stringify({
-                file: '$pdfPath'
-            }),
-        })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (response) {
-                console.log(response);
-            });
     window.location.href = 'https://fluid-line.ru/invoice/invoice.php?pdf_link=$pdfPath';
 </script>
 SCRIPT;

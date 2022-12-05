@@ -37,6 +37,18 @@ class StorageFileService{
         ]);
     }
 
+     /**
+     * @throws AwsException
+     * @throws S3Exception
+     */
+    public function delete($filepath)
+    {
+        return $this->s3_connection->deleteObject([
+            'Bucket' => $this->bucketName,
+            'Key' => $filepath
+        ]);
+    }
+
     /**
      * @throws AwsException
      * @throws S3Exception
