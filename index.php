@@ -1,18 +1,7 @@
 <?php
 
-function curl_get_content($url)
-{
-    $url = urldecode($url);
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_AUTOREFERER, 0);
-
-    $result = curl_exec($ch);
-    curl_close($ch);
-    return $result;
+if(!isset($_GET['q'])){
+    return;
 }
 
 function is_IE()
@@ -36,55 +25,47 @@ function getFileSize($size)
 
 function deleteUnzipped($path)
 {
-    if (!is_dir($path))
+    if (!is_dir($path)){
         return false;
+    }
+
     $files = array_slice(scandir($path), 2);
-    if (empty($files))
+    if (empty($files)){
         return false;
+    }
+
     foreach ($files as $file) {
-        if (file_exists($path . '/' . $file))
+        if (file_exists($path . '/' . $file)){
             unlink($path . '/' . $file);
+        }
     }
     return true;
 }
 
-function unzip($zipFile, $extract2)
+function unzipInvoice($zipFile, $extract2)
 {
+    $extract2 = rtrim($extract2, '\\/');
     deleteUnzipped($extract2);
 
     $zip = new ZipArchive();
-
     $zip_status = file_exists($zipFile) ? $zip->open($zipFile) : false;
 
     if ($zip_status === true) {
         $pswd = $_GET['pswd'];
+
         if ($zip->setPassword(trim($pswd))) {
-            if (!$zip->extractTo($extract2))
-                $_SESSION['error-password'] = 1;
+            if (!$zip->extractTo($extract2)){
+                throw new \Exception('Не удалось распаковать документы к заказу');
+            }
         }
 
         $zip->close();
     } else {
-        $_SESSION['error-password'] = 1;
         return false;
     }
 
-    $pdfFile = current(array_slice(scandir($extract2), 2));
-
-    return $extract2 . $pdfFile;
+    return true;
 }
-
-
-function get_current_url()
-{
-    return 'http' . ($_SERVER['HTTPS'] ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-}
-
-if(!isset($_GET['q'])){
-    return;
-}
-
-session_start();
 
 require_once __DIR__ . '/Src/init.php';
 $mysqli = $DbService->getConnection();
@@ -103,7 +84,6 @@ if(!$fetch){
 $sql = 'UPDATE `pdf_uploads` SET `lastAction` = CURRENT_TIMESTAMP, `views` = `views` + 1 WHERE `id` = ' . $fetch['id'];
 $query = $mysqli->query($sql);
 
-
 if (strtotime($fetch['visited']) < 0) {
     $sql = 'UPDATE `pdf_uploads` SET 
                 `visited` = CURRENT_TIMESTAMP,
@@ -113,39 +93,39 @@ if (strtotime($fetch['visited']) < 0) {
     $query = $mysqli->query($sql);
 }
 
-$explode = explode('/', $fetch['path']);
-$fileName = end($explode);
+$zipArciveName = basename($fetch['path']);
 $fileSize = getFileSize($fetch['size']);
 
-$zipFile = __DIR__ . '/upload-pdfs/files/' . trim($fetch['path'], '\\/');
-
-//Скачиваем файл из облака
-$FileService->downloadAs($fetch['hash'] . '/' . basename($fetch['path']), $zipFile);
-
-$pathArr = explode('/', $zipFile);
-array_pop($pathArr);
-$extract2 = implode('/', $pathArr) . '/unzipped/';
-
-//Распаковка
-$pdfPath = unzip($zipFile, $extract2);
-if ($pdfPath)
-    $mysqli->query('UPDATE `pdf_uploads` SET `unzip` = 1 WHERE `id` = ' . $fetch['id']);
-
-if (isset($_GET['open-invoice'])) {
-    $pdfPath = $hash . end(explode($hash, $pdfPath));
-    echo <<<SCRIPT
-<script>
-    window.location.href = 'https://fluid-line.ru/invoice/invoice.php?pdf_link=$pdfPath';
-</script>
-SCRIPT;
-    exit();
+$invoiceStorageDir = __DIR__ . '/upload-pdfs/files/' . trim($fetch['hash']);
+if(!is_dir($invoiceStorageDir)){
+    mkdir($invoiceStorageDir, 0755, true);
 }
 
-$pdfFile = end(explode('/', $pdfPath));
+$zipFile = $invoiceStorageDir . '/' . basename($fetch['path']);
 
-/**
- * @var $linka string
- */
+//Скачиваем файл из облака
+$FileService->downloadAs($fetch['path'], $zipFile);
+
+//Распаковка
+$extract2 = $invoiceStorageDir . '/unzipped';
+$unzippedSuccessfully = unzipInvoice($zipFile, $extract2);
+
+$pdfInvoiceFileUrl = false;
+$excelInvoiceFileUrl = false;
+if ($unzippedSuccessfully){
+    $mysqli->query('UPDATE `pdf_uploads` SET `unzip` = 1 WHERE `id` = ' . $fetch['id']);
+
+    $baseUrl = sprintf(
+        '%s://%s/upload-pdfs/files/%s/unzipped',
+        ($_SERVER['HTTPS'] ? 'https' : 'http'),
+        $_SERVER['HTTP_HOST'],
+        trim($fetch['hash'])
+    );
+    $pdfInvoiceFileUrl = $baseUrl . '/' . str_replace('zip', 'pdf', $zipArciveName);
+    $excelInvoiceFileUrl = $baseUrl . '/' . str_replace('zip', 'xlsx', $zipArciveName);
+}
+
+
 $linka = $fetch['pay_link'];
 
 if (!$fetch['entity']) {
@@ -155,7 +135,6 @@ if (!$fetch['entity']) {
     $a_inner = 'onclick="showAlert()"';
     $pay_class = 'disabled';
 }
-
 
 if ($fetch['is_paid'] || $fetch['pay_block']) {
     $a_inner = 'style="opacity: .3; cursor: default;" title="Оплата по карте недоступна"';

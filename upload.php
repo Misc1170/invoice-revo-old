@@ -5,8 +5,17 @@ header('Content-Type: application/json');
 $postData = file_get_contents('php://input');
 $data = json_decode($postData, true);
 
-$log_file = uniqid(date("Y-m-d-H-i-s") . '_') . '.log';
-file_put_contents(__DIR__ . "/logs/uploads/requests/" . $log_file, $postData);
+$input_log_dir = __DIR__ . "/logs/uploads/requests/" . date("Y-m-d");
+if(!is_dir($input_log_dir)){
+    mkdir($input_log_dir, 0755, true);
+}
+$output_log_dir = __DIR__ . "/logs/uploads/results/" . date("Y-m-d");
+if(!is_dir($output_log_dir)){
+    mkdir($output_log_dir, 0755, true);
+}
+
+$log_file = uniqid(date("H-i-s") . '_') . '.log';
+file_put_contents($input_log_dir . '/' . $log_file, $postData);
 
 require_once __DIR__ . '/Src/init.php';
 $mysqli = $DbService->getConnection();
@@ -48,17 +57,91 @@ unset($data['file']);
 
 $filesize = $FileService->headObject($path)['ContentLength'];
 
-// Проверка на то, что новый заказ уже был оплачен до этого и выставлен ошибочно
-// $sql = 'SELECT `is_paid` FROM `pdf_uploads` WHERE `order_id` = "' . $data['order_id'] . '" LIMIT 1';
-// $query = $mysqli->query($sql);
-// $fetch = $query->fetch_all(MYSQLI_ASSOC);
-$is_paid = 0;
-
 $pay_link = "";
 //Формируем ссылку на оплату
 if (isset($data['link'])) {
+    $pay_link = generatePaylink($data['link']);
+}
+
+$is_paid = 0;
+$entity = isset($data['entity']) && $data['entity'] == true ? 1 : 0;
+$pay_block = isset($data['pay_block']) && $data['pay_block'] !== '' ? $data['pay_block'] : 0;
+$request_link = htmlspecialchars($data['link']);
+
+// Если уже есть заказ, то обновляем его, либо инсертим
+if($existing_order !== null){
+    $result_query = $mysqli->prepare('
+        UPDATE `pdf_uploads` 
+        SET path = ?, `size` = ?, `entity` = ?, `pay_block` = ?, `pay_link` = ?, `email_hash` = ?, `link` = ?
+        WHERE `hash` = ?
+    ');
+
+    $result_query->bind_param("siiissss",
+        $path, $filesize, $entity, $pay_block, $pay_link, $data['email_hash'], $request_link, $hash
+    );
+
+    file_put_contents($output_log_dir."/".$log_file, "
+        UPDATE `pdf_uploads` 
+        SET path = '$path', `size` = $filesize, `entity` = $entity, `pay_block` = $pay_block, `pay_link` = '$pay_link', `email_hash` = '$data[email_hash]', `link` = '$request_link'
+        WHERE `hash` = '$hash'
+    ");
+
+
+} else {
+    $result_query = $mysqli->prepare('
+        INSERT INTO `pdf_uploads` 
+        (`is_paid`, `path`, `hash`, `size`, `entity`, `order_id`, `pay_block`, `pay_link`, `InvoiceId`, `email_hash`, `link`)
+            VALUES 
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ');
+    $db_save_link = htmlspecialchars($data['link']);
+    $result_query->bind_param("issiisisiss", 
+        $is_paid, 
+        $path, 
+        $hash,
+        $filesize,
+        $entity,
+        $data['order_id'],
+        $pay_block,
+        $pay_link, 
+        $data['InvoiceId'],
+        $data['email_hash'],
+        $request_link
+    );
+
+    file_put_contents($output_log_dir."/".$log_file, "
+        INSERT INTO `pdf_uploads` 
+        (`is_paid`, `path`, `hash`, `size`, `entity`, `order_id`, `pay_block`, `pay_link`, `InvoiceId`, `email_hash`, `link`)
+            VALUES 
+        ($is_paid, '$path', '$hash', $filesize, $entity, $data[order_id], $pay_block, '$pay_link', $data[InvoiceId], $data[email_hash], $db_save_link)
+    ");
+}
+
+$result = $result_query->execute();
+
+echo json_encode(array(
+    'insert-database-result' => $result,
+    'link' => $link
+));
+
+function createUniqueHash($mysqli){
+    $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    // Чтобы хеш не повторялся
+    do {
+        $hash = md5(time() . substr(str_shuffle($permitted_chars), 0, 16));
+        $sql = 'SELECT `id` FROM `pdf_uploads` WHERE `hash` = "' . $hash . '"';
+        $query = $mysqli->query($sql);
+    } while ($query->num_rows > 0);
+
+    return $hash;
+}
+
+function generatePaylink($src_link){
+
+    $pay_link = false;
     $invoiceArray = array();
-    $queryString = urldecode(trim(strval($data['link']), '?'));
+    $queryString = urldecode(trim(strval($src_link), '?'));
 
     $fetchPay = explode('&', $queryString);
     foreach ($fetchPay as $rowInner) {
@@ -73,96 +156,6 @@ if (isset($data['link'])) {
         include __DIR__ . '/oplata2.php';
         $pay_link = $linka;
     } while (!$pay_link);
-}
 
-$entity = isset($data['entity']) && $data['entity'] == true ? 1 : 0;
-$pay_block = isset($data['pay_block']) && $data['pay_block'] !== '' ? $data['pay_block'] : 0;
-$request_link = htmlspecialchars($data['link']);
-
-// Если уже есть заказ, то обновляем его, либо инсертим
-if($existing_order !== null){
-    $result_query = $mysqli->prepare('
-        UPDATE `pdf_uploads` 
-        SET path = ?, `size` = ?, `entity` = ?, `pay_block` = ?, `pay_link` = ?, `email_hash` = ?, `link` = ?
-        WHERE `hash` = ?
-    ');
-
-    $result_query->bind_param("sdddssss",
-        $path, $filesize, $entity, $pay_block, $pay_link, $data['email_hash'], $request_link, $hash
-    );
-} else {
-    $result_query = $mysqli->prepare('
-        INSERT INTO `pdf_uploads` 
-        (`is_paid`, `path`, `hash`, `size`, `entity`, `order_id`, `pay_block`, `pay_link`, `InvoiceId`, `email_hash`, `link`)
-            VALUES 
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ');
-    $result_query->bind_param("dssddsdsdss", 
-        $is_paid, 
-        $path, 
-        $hash,
-        $filesize,
-        $entity,
-        $data['order_id'],
-        $pay_block,
-        $pay_link, 
-        $data['InvoiceId'],
-        $data['email_hash'],
-        htmlspecialchars($data['link'])
-    );
-}
-
-$result = $result_query->execute();
-
-echo json_encode(array(
-    'insert-database-result' => $result,
-    'link' => $link
-));
-
-$datetime = date('d.m.Y H:i:s');
-$insert_query_log = $result 
-    ? "Добавлено в базу данных: `id` = $mysqli->insert_id" 
-    : "Не добавлено в базу данных";
-
-$log = <<<LOG
-
-Отчёт о добавлении счета № $data[InvoiceId] $datetime
-
-Полученные данные:
-InvoiceId: $data[InvoiceId]
-entity: $data[entity]
-pay_block: $data[pay_block]
-email_hash: $data[email_hash]
-link: $data[link]
-filename: $data[filename]
-
-Отчёт о загрузке файла $data[filename]:
-Файл загружен: $link
-
-Отчёт о добавлении в базу данных:
-Текст запроса
-$sql
-Результат запроса
-$insert_query_log
-
-Ответ сервера
-insert-database-result: $result,
-link: $link
-
-********************************************************************************************
-LOG;
-
-file_put_contents(__DIR__ . "/logs/uploads/results/" . $log_file, $postData . PHP_EOL . PHP_EOL, FILE_APPEND);
-
-function createUniqueHash($mysqli){
-    $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-    // Чтобы хеш не повторялся
-    do {
-        $hash = md5(time() . substr(str_shuffle($permitted_chars), 0, 16));
-        $sql = 'SELECT `id` FROM `pdf_uploads` WHERE `hash` = "' . $hash . '"';
-        $query = $mysqli->query($sql);
-    } while ($query->num_rows > 0);
-
-    return $hash;
+    return $pay_link;
 }

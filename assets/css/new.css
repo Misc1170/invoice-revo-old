@@ -1,0 +1,254 @@
+
+/*Правки*/
+
+
+#certificates a{
+	text-decoration: none;
+}
+
+#certificates .flex{
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+}
+
+#certificates .flex a{
+	width: 110px;
+	font-size: 11px;
+	text-align: center;
+	margin-right: 15px;
+	color: #000;
+}
+
+#certificates .flex.second-flex a{
+	width: auto;
+	margin-right: 0;
+}
+
+#certificates .flex a img{
+	display: block;
+}
+
+.contacts .flex{
+	display: flex;
+}
+
+.contacts strong{
+	padding-right: 15px;
+}
+
+.contacts-address{
+	margin-top: 10px;
+}
+
+.map{
+	background-image: url('/assets/images/fluid-line-map.jpg'); 
+	width: 830px; 
+	margin-top: 20px; 
+	background-size: contain; 
+	background-repeat: no-repeat;
+	max-width: 100%;
+}
+
+#map{
+	height: 500px;
+}
+
+
+
+.callback .input:not(:last-child){
+	margin-bottom: 15px;
+}
+
+.callback input, .callbakc textarea{
+	max-width: 100%;
+	text-indent: 10px;
+}
+
+.callback .input:not(:nth-child(2)) input::-webkit-input-placeholder, .callback textarea:-webkit-input-placeholder { opacity: 0; }
+.callback .input:not(:nth-child(2)) input:-ms-input-placeholder, .callback textarea:-ms-input-placeholder { opacity: 0; }
+.callback .input:not(:nth-child(2)) input::-ms-input-placeholder, .callback textarea::-ms-input-placeholder { opacity: 0; }
+.callback .input:not(:nth-child(2)) input::placeholder, .callback textarea::placeholder { opacity: 0; } 
+
+.callback label{
+	font-weight: bold;
+	display: inline-block;
+	font-size: 16px;
+	width: 50px;
+	max-width: 100%;
+	padding-right: 15px;
+	cursor: pointer;
+}
+
+.callback textarea{
+	padding: 5px;
+	text-indent: 15px;
+	margin-top: 5px;
+}
+
+
+
+
+.rekviziti{
+	border: 1px solid #000;
+}
+
+.rekviziti .flex{
+	display: flex;
+	align-items: center;
+}
+
+.rekviziti .flex:not(:last-child){
+	border-bottom: 1px solid #000;
+}
+
+.rekviziti .flex div{
+	width: 50%;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.rekviziti .flex div:first-child{
+        border-right: 1px solid #000;
+        font-weight: bold;
+    }
+
+.rekviziti .flex div:last-child{
+    border-left: 1px solid #000;
+    position: relative;
+    left: -1px;
+}
+
+.regional .flex{
+	display: flex;
+	margin-bottom: 10px;
+}
+
+.regional .flex div:first-child{
+	width: 40%;
+}
+
+.regional .flex div:last-child{
+	width: 60%;
+}
+
+.map-img{
+	width: 800px;
+	max-width: 100%;
+}
+
+
+.mobile-phone{
+	display: none;
+}
+
+.sublinks a {
+	display: block; 
+	height: 20px; 
+	font-size: 16px; 
+	margin-bottom: 13px;
+}
+
+
+div.cua-filter form{
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	margin-bottom: 30px;
+}
+
+select.cua-filter {
+	width: calc(50% - 3px);
+}
+
+tr.filtered{
+	background-color: #FFF;
+}
+
+.cua-filter-select-descktop{
+	text-align: center;
+	width: 100% !important;
+	outline: none;
+    border: 1px solid #0096BB;
+    -moz-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+    -ms-appearance: none;
+    appearance: none !important;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background-size: 1% !important;
+    background: url('../images/dropDown.png') 95% no-repeat, #0096BB !important;
+}
+
+#visiterEmail{
+	white-space: nowrap;
+}
+
+#unique-number{
+	display: none;
+}
+
+
+/*BOOTSTRAP STYLES*/
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.hidden{
+	display: none;
+}
+
+.h1, .h2, .h3, h1, h2, h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+mark {
+    color: #000;
+    background: #ff0;
+}
+
+.mark, mark {
+    padding: .2em;
+    background-color: #fcf8e3;
+}

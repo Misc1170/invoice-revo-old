@@ -1,10 +1,4 @@
-<?php
-$fl_link = str_replace('http://revo-test.site/', 'https://fluid-line.ru', $pdfPath);
-$data_link = str_replace('http://revo-test.site//upload-pdfs/files/', '', $pdfPath);
-?>
-
 <style>
-
     html {
         scrollbar-width: thin;
         -ms-overflow-style: none;
@@ -166,113 +160,109 @@ $data_link = str_replace('http://revo-test.site//upload-pdfs/files/', '', $pdfPa
     <tr>
         <th>#</th>
         <th>Название файла</th>
-        <!--<th>Открыть</th>
-        <th>Скачать</th>
-        <th>Распечатать</th>
-        <th>Оплата</th>-->
     </tr>
     </thead>
     <tbody>
-    <?php if ($fileName && !isset($_SESSION['error-password'])): ?>
+    <?php if ($pdfInvoiceFileUrl || $excelInvoiceFileUrl): ?>
         <tr style="vertical-align: top">
             <td>1</td>
             <td>
-                <?php if (preg_match('/pdf$/', trim($pdfPath))): ?>
-                <a data-href="<?= $data_link ?>" href="<?= $fl_link ?>" target="_blank" class="open-link">
+                <?php if ($pdfInvoiceFileUrl): ?>
+                    <a href="<?= $pdfInvoiceFileUrl ?>" target="_blank" class="open-link">
                     <? else: ?>
                     <a>
-                        <?php endif; ?>
-                        <?= $pdfFile ?>&nbsp;(<?= $fileSize ?>)
+                <?php endif; ?>
+
+                    <?= basename($pdfInvoiceFileUrl) ?>
+                    &nbsp;
+                    (<?= $fileSize ?>)
+                </a>
+
+                <span class="options" style="display: flex; align-items: flex-start; flex-wrap: wrap; font-size: 20px; margin-top: 15px;">
+
+                    <?php if($pdfInvoiceFileUrl): ?>
+                        <a href="<?= $pdfInvoiceFileUrl ?>" target="_blank" class="open-link" title="Открыть">
+                        <? else: ?>
+                        <a style="opacity: .4">
+                    <?php endif; ?>
+
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                            <span class="title">Открыть</span>
+                        </a>
+
+                    <?php if($pdfInvoiceFileUrl && !is_IE()): ?>
+
+                        <a href="#" class="print-link" title="Распечатать">
+                            <span class="loader">
+                                <i class="fa fa-spinner fa-pulse"></i></span>
+                        <? else: ?>
+                            <a style="opacity: .4">
+                    <?php endif; ?>
+
+                        <i class="fa fa-print" aria-hidden="true"></i>
+                        <span class="title">Печать</span>
                     </a>
 
-                    <span class="options"
-                          style="display: flex; align-items: flex-start; flex-wrap: wrap; font-size: 20px; margin-top: 15px;">
+                    <a <?= $a_inner ?> title="Оплата" style="cursor: pointer;">
+                        <i class="fa fa-credit-card-alt <?= $pay_class ?>" aria-hidden="true"></i>
+                        <span class="title">Оплата</span>
+                    </a>
 
-                        <?php if (preg_match('/pdf$/', trim($pdfPath))): ?>
-                        <a data-href="<?= $data_link ?>" href="<?= $fl_link ?>" target="_blank" class="open-link"
-                           title="Открыть">
-                            <? else: ?>
-                            <a style="opacity: .4">
-                                <?php endif; ?>
-                                <i class="fa fa-eye" aria-hidden="true"></i>
-                                <span class="title">Открыть</span>
-                            </a>
-                            <?php if (preg_match('/pdf$/', trim($pdfPath)) && !is_IE()): ?>
-                            <a href="/print" class="print-link" title="Распечатать">
-                                <span class="loader">
-                                    <i class="fa fa-spinner fa-pulse"></i></span>
-                                <? else: ?>
-                                <a style="opacity: .4">
-                                    <?php endif; ?>
-                                    <i class="fa fa-print" aria-hidden="true"></i>
-                                    <span class="title">Печать</span>
-                                </a>
-                                <a <?= $a_inner ?> title="Оплата" style="cursor: pointer;">
-                                    <i class="fa fa-credit-card-alt <?= $pay_class ?>" aria-hidden="true"></i>
-                                    <span class="title">Оплата</span>
-                                </a>
+                    <span class="delimiter"></span>
 
-                                <span class="delimiter"></span>
+                    <a href="<?= $pdfInvoiceFileUrl ?>" target="_blank" download title="Скачать">
+                        <i class="fa fa-download" aria-hidden="true"></i>
+                        <span class="title">Скачать Pdf</span>
+                    </a>
 
-                            <a data-href="<?= $data_link ?>"
-                               href="https://fluid-line.ru/invoice/download.php?link=<?= $data_link ?>"
-                               target="_blank"
-                               download
-                               title="Скачать">
-                                <i class="fa fa-download" aria-hidden="true"></i>
-                                <span class="title">Скачать Pdf</span>
-                            </a>
+                    <!--Эксель файл-->
+                    <?php if ($excelInvoiceFileUrl): ?>
+                        <a title="Скачать эксель файл со счетом" class="pointer" download 
+                            href="<?= $excelInvoiceFileUrl ?>"
+                        >
+                            <i class='fa fa-file-excel-o' aria-hidden='true'></i>
+                            <span class="title">Скачать Excel</span>
+                        </a>
+                    <?php endif; ?>
+                    <!--Эксель файл-->
 
+                    <span class="delimiter"></span>
 
-                                <!--Эксель файл-->
-                            <?php
-                            $excel_path = $_SERVER['DOCUMENT_ROOT'] . '/upload-pdfs/files/' . $hash . '/unzipped/' . str_replace('zip', 'xlsx', $fileName);
-                            $excel_link = $hash . '/unzipped/' . str_replace('zip', 'xlsx', $fileName);
-                            if (file_exists($excel_path)): ?>
-                                <a title="Скачать эксель файл со счетом" class="pointer"
-                                   data-href="<?= $excel_link ?>"
-                                   href="https://fluid-line.ru/invoice/download.php?link=<?= $excel_link ?>">
-                                    <i class='fa fa-file-excel-o' aria-hidden='true'></i>
-                                    <span class="title">Скачать Excel</span>
-                                </a>
-                            <?php endif; ?>
-                            <!--Эксель файл-->
+                    <!-- Отправка письма с вложением-->
+                    <!-- <a title="Отправить на почту руководителю" class="pointer"
+                        onclick="openMailSender('mailsender-director')">
 
-                                <span class="delimiter"></span>
+                        <i class="fa fa-envelope-o" aria-hidden="true" style="color: #6ca24a;"></i>
 
-                                <!--Отправка письма с вложением-->
-                                <!--<a title="Отправить файл со счетом на почту" class="pointer"
-                                   onclick="openMailSender()">
-                                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                                    <span class="title">Отправить на почту</span>
-                                </a>-->
-                                <!--Отправка письма с вложением-->
+                        <span class="title">
+                            Отправить
+                            <br>
+                            руководителю
+                        </span>
+                    </a> -->
+                    <!--Отправка письма с вложением-->
 
-                                <!--Отправка письма с вложением-->
-                            <a title="Отправить на почту руководителю" class="pointer"
-                               onclick="openMailSender('mailsender-director')">
-                                <i class="fa fa-envelope-o" aria-hidden="true" style="color: #6ca24a;"></i>
-                                <span class="title">Отправить<br>руководителю</span>
-                            </a>
-                                <!--Отправка письма с вложением-->
+                    <!--Отправка письма с вложением-->
+                    <!-- <a title="Отправить на почту бухгалтеру" class="pointer"
+                        onclick="openMailSender('mailsender-accountant')">
 
-                                <!--Отправка письма с вложением-->
-                            <a title="Отправить на почту бухгалтеру" class="pointer"
-                               onclick="openMailSender('mailsender-accountant')">
-                                <i class="fa fa-envelope" aria-hidden="true" style="color: #cc8910;"></i>
-                                <span class="title">Отправить<br>бухгалтеру</span>
-                            </a>
-                                <!--Отправка письма с вложением-->
+                        <i class="fa fa-envelope" aria-hidden="true" style="color: #cc8910;"></i>
 
-
-                    </span>
+                        <span class="title">
+                            Отправить
+                            <br>
+                            бухгалтеру
+                        </span>
+                    </a> -->
+                    <!--Отправка письма с вложением -->
+                </span>
             </td>
         </tr>
 
     <?php else: ?>
         <tr>
             <td>-</td>
-            <td>Файл не найден...</td>
+            <td>Файлы не найдены...</td>
             <td><i style="opacity: .4" class="fa fa-eye" aria-hidden="true"></i></td>
             <td><i style="opacity: .4" class="fa fa-download" aria-hidden="true"></i></td>
         </tr>

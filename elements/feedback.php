@@ -60,19 +60,7 @@
     </div>
 </div>
 
-
-<script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-
 <script>
-
-   /* $(window).on('load', () => {
-        const textarea = document.querySelector('textarea[name="comment"]');
-       if(screen.width < 700){
-           const placeholder = textarea.placeholder;
-           textarea.placeholder = "";
-           $(textarea).closest('.form-group').before(`<p class="placeholder-mobile">${placeholder}</p>`);
-       }
-    });*/
 
     $('#feedback-form').on('submit', e => {
         e.preventDefault();
@@ -85,7 +73,7 @@
         data.method = 'setComment';
 
         const callback = response => {
-            console.log(response);
+            
             if(response.result){
                 const modal = $('#feedback-modal');
                 modal.modal('show');
@@ -94,8 +82,8 @@
             }
         };
 
-        fetchfunc('/assets/snippets/comments/Comments.php', callback, data);
+        fetchfunc('https://fluid-line.ru/assets/snippets/comments/Comments.php', callback, data);
     });
 </script>
 
-</div><!--button-inner-->
+</div>

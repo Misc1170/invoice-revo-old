@@ -1,5 +1,6 @@
 <?php
 
+// var $config - объявлена в /Src/init.php
 $cases_db_config = $config['databases']['cases']; 
 
 $mysql_fl = new mysqli(
@@ -102,16 +103,14 @@ $cases = $query_fl->fetch_all(MYSQLI_ASSOC);
 
 </style>
 
-<!--https://fluid-line.ru/-->
 <hr>
 <h2 align="center" style="font-weight: bold; font-size: 24px;">Реализованные проекты</h2>
 <br>
 <div class="vebinars-grids">
     <?php foreach ($cases as $case): ?>
         <div class="vebinar-grid-item" data-tag="case" data-id="<?= $case['id'] ?>">
-            <!--<p class="vebinar-date"><? /*= date('d.m.Y', $case['date']) */ ?></p>-->
             <a href="https://fluid-line.ru?id=<?= $case['id'] ?>" target="_blank">
-                <img src="<?= $case['image'] ?>" alt="" class="vebinar-image">
+                <img src="https://fluid-line.ru/<?= $case['image'] ?>" alt="" class="vebinar-image">
             </a>
             <h3 class="vebinar-title"><?= $case['pagetitle'] ?></h3>
             <a href="https://fluid-line.ru?id=<?= $case['id'] ?>" target="_blank">
