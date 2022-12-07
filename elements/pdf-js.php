@@ -58,7 +58,7 @@
            onclick="this.parentNode.parentNode.style.display='none';"></i>
         <?php if ($fetch['pay_link']): ?>
             <span>
-                <?= current(explode('.', $pdfInvoiceFileUrl)) ?>
+                <?= current(explode('.', basename($pdfInvoiceFileUrl))) ?>
             </span> 
                 выставлен на юридическое лицо.
                 Для оплаты от частного лица, введите пожалуйста ФИО плательщика.
