@@ -114,9 +114,9 @@
 
         <form action="https://fluid-line.ru/invoice/mail-sender.php" method="get">
             <input type="email" name="email" placeholder="Email, на который отправить письмо со счетом" class="form-control" style="height: 45px;" required>
-            <input type="hidden" name="id" value="<?= isset($fetch['id']) ? $fetch['id'] : ''; ?>">
+            <input type="hidden" name="id" value="<?php //echo isset($fetch['id']) ? $fetch['id'] : ''; ?>">
             <input type="hidden" name="option" value="director">
-            <input type="hidden" name="file" value="<?= $data_link ?>">
+            <input type="hidden" name="file" value="<?php //echo $data_link ?>">
             <button class="btn btn-primary" type="submit">Отправить письмо</button>
             <hr style="margin: 20px 0 0;">
             <i style="font-size: 11px;">Если письмо долго не приходит, пожалуйста, проверьте папку "СПАМ"</i>
