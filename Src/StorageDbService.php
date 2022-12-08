@@ -15,7 +15,7 @@ class StorageDatabase{
     {
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $this->connection = mysqli_init();
-        // $this->connection->ssl_set(NULL, NULL, $cert_path, NULL, NULL);
+        $this->connection->ssl_set(NULL, NULL, $cert_path, NULL, NULL);
         
         $this->connection->real_connect(
             $host,
@@ -24,7 +24,7 @@ class StorageDatabase{
             $database, 
             $port, 
             NULL,
-            NULL
+            MYSQLI_CLIENT_SSL
         );
     }
 
