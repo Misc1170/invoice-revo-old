@@ -125,7 +125,7 @@ try{
 
     $filesize = $FileService->headObject($path)['ContentLength'];
     
-    $set_size_query = $mysqli->prepare('UPDAE `pdf_uploads` SET `size` = ? WHERE `hash` = ?');
+    $set_size_query = $mysqli->prepare('UPDATE `pdf_uploads` SET `size` = ? WHERE `hash` = ?');
     $set_size_query->bind_param("is", $filesize, $hash);
     $set_size_query->execute();
 
