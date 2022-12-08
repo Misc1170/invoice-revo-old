@@ -113,7 +113,7 @@ if($existing_order !== null){
         INSERT INTO `pdf_uploads` 
         (`is_paid`, `path`, `hash`, `size`, `entity`, `order_id`, `pay_block`, `pay_link`, `InvoiceId`, `email_hash`, `link`)
             VALUES 
-        ($is_paid, '$path', '$hash', $filesize, $entity, $data[order_id], $pay_block, '$pay_link', $data[InvoiceId], $data[email_hash], $db_save_link)
+        ($is_paid, '$path', '$hash', $filesize, $entity, $data[order_id], $pay_block, '$pay_link', $data[InvoiceId], '$data[email_hash]', '$db_save_link')
     ");
 }
 
