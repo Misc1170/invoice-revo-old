@@ -65,7 +65,7 @@ $filesize = $FileService->headObject($path)['ContentLength'];
 
 $is_paid = 0;
 $entity = isset($data['entity']) && $data['entity'] == true ? 1 : 0;
-$pay_block = isset($data['pay_block']) && $data['pay_block'] !== '' ? $data['pay_block'] : 0;
+$pay_block = isset($data['pay_block']) && $data['pay_block'] == true ? 1 : 0;
 $request_link = htmlspecialchars($data['link']);
 
 // Если уже есть заказ, то обновляем его, либо инсертим
