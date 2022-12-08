@@ -24,6 +24,12 @@ if(!isset($data['filename']) || $data['filename'] == ''){
     throw new Exception('Не удалось найти имя файла');
 }
 
+$pay_link = "";
+//Формируем ссылку на оплату
+if (isset($data['link']) && $data['link'] != '') {
+    $pay_link = generatePaylink($data['link']);
+}
+
 //Проверка на существование заказа.
 // Раньше при каждой отправке заказа создавалась отдельная запись в базе и файлы. Поэтому для экономии места
 // и правильной работы, мы теперь обновляем послеждний добавленные заказ с таким же order_id
@@ -56,12 +62,6 @@ if(!$FileService->doesObjectExists($path)){
 unset($data['file']);
 
 $filesize = $FileService->headObject($path)['ContentLength'];
-
-$pay_link = "";
-//Формируем ссылку на оплату
-if (isset($data['link']) && $data['link'] != '') {
-    $pay_link = generatePaylink($data['link']);
-}
 
 $is_paid = 0;
 $entity = isset($data['entity']) && $data['entity'] == true ? 1 : 0;
