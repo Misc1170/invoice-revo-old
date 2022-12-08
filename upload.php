@@ -132,7 +132,7 @@ try{
     file_put_contents($output_log_dir."/".$log_file, "
         \n
         UPDATE `pdf_uploads` SET `size` = $filesize WHERE `hash` = '$hash'
-    ");
+    ", FILE_APPEND);
 
     $mysqli->commit();
 
