@@ -59,7 +59,7 @@ $filesize = $FileService->headObject($path)['ContentLength'];
 
 $pay_link = "";
 //Формируем ссылку на оплату
-if (isset($data['link']) && $data['link'] !== '') {
+if (isset($data['link']) && $data['link'] != '') {
     $pay_link = generatePaylink($data['link']);
 }
 
