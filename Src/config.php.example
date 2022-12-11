@@ -2,16 +2,17 @@
 
 return [
      'file_storage' => [
-        'bucketName' => 'fluid-invoice'
+        'bucketName' => 'fluid-invoice',
+        'endpoint' => 'http://revo-test_minio:9001' // Локальный Minio
     ],
     'databases' => [
         'main' => [
-            'host' => 'localhost',
-            'port' => '3306',
-            'user' => '123',
-            'password' => '123',
-            'db' => '123',
-            'cert_path' => '/var/www/certs/mysql/fluid_db.crt'
+            'host' => 'localhost', //
+            'port' => '3306', // 
+            'user' => '123', // 
+            'password' => '123', // 
+            'db' => '123', //
+            'cert_path' => NULL //
         ],
         'cases' => [
             'host' => 'localhost',

@@ -7,10 +7,13 @@ use Aws\S3\Exception\S3Exception;
 class StorageFileService{
 
     private $bucketName;
+    private $endpoint;
+
     private $s3_connection;
 
     public function __construct(
-        $bucketName = 'test'
+        $bucketName = 'test',
+        $endpoint = 'http://localhost:9001',
     )
     {
         $this->bucketName = $bucketName;
@@ -19,7 +22,7 @@ class StorageFileService{
         // должны быть утсановлены в переменных окружения
         $this->s3_connection = new S3Client([
             'version' => 'latest',
-            'endpoint' => 'https://storage.yandexcloud.net',
+            'endpoint' => $endpoint,
             'region' => 'ru-central1',
         ]);
     }

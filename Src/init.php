@@ -19,5 +19,6 @@ $DbService = new StorageDatabase(
 ); 
 
 $FileService = new StorageFileService(
-    $storage_config['bucketName']
+    $storage_config['bucketName'],
+    $storage_config['endpoint']
 );
